@@ -1,0 +1,259 @@
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+
+local KEY_CORRETA = "mendingos123"
+local ToggleKey = Enum.KeyCode.K
+
+-------------------------------------------------
+-- DESTINOS
+-------------------------------------------------
+
+local DESTINOS = {
+    { nome = "Banco", pos = Vector3.new(20.97,7.27,-465.04) },
+    { nome = "Hangar", pos = Vector3.new(674.39,5.70,-113.67) },
+    { nome = "Lava Dinheiro", pos = Vector3.new(-281.52,47.87,962.85) },
+    { nome = "Loja Ilegal", pos = Vector3.new(-221.45,71.08,987.37) },
+    { nome = "Loja 1", pos = Vector3.new(-668.75,16.44,178.76) },
+    { nome = "Loja 2", pos = Vector3.new(-556.03,16.42,654.95) },
+    { nome = "Loja 3", pos = Vector3.new(904.10,16.52,-117.28) },
+    { nome = "Loja 4", pos = Vector3.new(101.03,5.00,-510.79) },
+    { nome = "Praça", pos = Vector3.new(-72.57,5.18,275.64) },
+}
+
+-------------------------------------------------
+-- GUI
+-------------------------------------------------
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-------------------------------------------------
+-- RGB BORDA
+-------------------------------------------------
+
+local function RGBStroke(obj)
+
+    local stroke = Instance.new("UIStroke", obj)
+    stroke.Thickness = 3
+
+    task.spawn(function()
+        local h = 0
+        while obj.Parent do
+            h += 0.01
+            stroke.Color = Color3.fromHSV(h,1,1)
+            task.wait()
+        end
+    end)
+
+end
+
+-------------------------------------------------
+-- KEY PANEL
+-------------------------------------------------
+
+local keyFrame = Instance.new("Frame", gui)
+keyFrame.Size = UDim2.new(0,300,0,180)
+keyFrame.Position = UDim2.new(0.5,-150,0.5,-90)
+keyFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+
+RGBStroke(keyFrame)
+
+local title = Instance.new("TextLabel", keyFrame)
+title.Size = UDim2.new(1,0,0,40)
+title.Text = "ACESSO AO PAINEL"
+title.Font = Enum.Font.GothamBlack
+title.TextScaled = true
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.new(1,1,1)
+
+local keyBox = Instance.new("TextBox", keyFrame)
+keyBox.Size = UDim2.new(0.8,0,0,40)
+keyBox.Position = UDim2.new(0.1,0,0.4,0)
+keyBox.PlaceholderText = "Digite a Key..."
+
+local enter = Instance.new("TextButton", keyFrame)
+enter.Size = UDim2.new(0.6,0,0,35)
+enter.Position = UDim2.new(0.2,0,0.7,0)
+enter.Text = "Entrar"
+
+-------------------------------------------------
+-- TELEPORT
+-------------------------------------------------
+
+local function teleportar(pos)
+
+    local char = player.Character
+
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = CFrame.new(pos)
+    end
+
+end
+
+-------------------------------------------------
+-- PAINEL PRINCIPAL
+-------------------------------------------------
+
+local function abrirPainel()
+
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0,360,0,450)
+    frame.Position = UDim2.new(0.1,0,0.2,0)
+    frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+    frame.Active = true
+    frame.Draggable = true
+
+    RGBStroke(frame)
+
+    local bg = Instance.new("ImageLabel", frame)
+    bg.Size = UDim2.new(1,0,1,0)
+    bg.BackgroundTransparency = 1
+    bg.ImageTransparency = 0.4
+    bg.Image = "rbxassetid://SEU_ID_DA_IMAGEM"
+
+    local titulo = Instance.new("TextLabel", frame)
+    titulo.Size = UDim2.new(1,0,0,40)
+    titulo.Text = "Tropa Dos XYTEEY"
+    titulo.Font = Enum.Font.GothamBlack
+    titulo.TextScaled = true
+    titulo.BackgroundColor3 = Color3.fromRGB(15,15,15)
+    titulo.TextColor3 = Color3.new(1,1,1)
+
+    local page1 = Instance.new("Frame", frame)
+    page1.Size = UDim2.new(1,0,1,-60)
+    page1.Position = UDim2.new(0,0,0,50)
+    page1.BackgroundTransparency = 1
+
+    local page2 = Instance.new("Frame", frame)
+    page2.Size = page1.Size
+    page2.Position = page1.Position
+    page2.BackgroundTransparency = 1
+    page2.Visible = false
+
+    -------------------------------------------------
+    -- TELEPORTS
+    -------------------------------------------------
+
+    local y = 0
+
+    for _,dest in pairs(DESTINOS) do
+
+        local btn = Instance.new("TextButton", page1)
+        btn.Size = UDim2.new(0.8,0,0,30)
+        btn.Position = UDim2.new(0.1,0,0,y)
+        btn.Text = dest.nome
+
+        btn.MouseButton1Click:Connect(function()
+            teleportar(dest.pos)
+        end)
+
+        y = y + 35
+
+    end
+
+    -------------------------------------------------
+    -- NAMELESS ADMIN
+    -------------------------------------------------
+
+    local adminButton = Instance.new("TextButton", page2)
+    adminButton.Size = UDim2.new(0.8,0,0,40)
+    adminButton.Position = UDim2.new(0.1,0,0.1,0)
+    adminButton.Text = "Nameless Admin"
+    adminButton.Font = Enum.Font.GothamBold
+
+    adminButton.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ltseverydayyou/Nameless-Admin/main/Source.lua"))()
+    end)
+
+    -------------------------------------------------
+    -- AIMBOT V1
+    -------------------------------------------------
+
+    local aimbot1 = Instance.new("TextButton", page2)
+    aimbot1.Size = UDim2.new(0.8,0,0,40)
+    aimbot1.Position = UDim2.new(0.1,0,0.3,0)
+    aimbot1.Text = "Aimbot v1"
+    aimbot1.Font = Enum.Font.GothamBold
+
+    aimbot1.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua"))()
+    end)
+
+    -------------------------------------------------
+    -- AIMBOT V2
+    -------------------------------------------------
+
+    local aimbot2 = Instance.new("TextButton", page2)
+    aimbot2.Size = UDim2.new(0.8,0,0,40)
+    aimbot2.Position = UDim2.new(0.1,0,0.5,0)
+    aimbot2.Text = "Aimbot v2"
+    aimbot2.Font = Enum.Font.GothamBold
+
+    aimbot2.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))()
+    end)
+
+    -------------------------------------------------
+    -- BOTÃO MUDAR PAGINA
+    -------------------------------------------------
+
+    local mudar = Instance.new("TextButton", frame)
+    mudar.Size = UDim2.new(0,40,0,40)
+    mudar.Position = UDim2.new(1,-45,1,-45)
+    mudar.Text = ">"
+
+    local pagina = 1
+
+    mudar.MouseButton1Click:Connect(function()
+
+        if pagina == 1 then
+            page1.Visible = false
+            page2.Visible = true
+            mudar.Text = "<"
+            pagina = 2
+        else
+            page1.Visible = true
+            page2.Visible = false
+            mudar.Text = ">"
+            pagina = 1
+        end
+
+    end)
+
+    -------------------------------------------------
+    -- TECLA K
+    -------------------------------------------------
+
+    UIS.InputBegan:Connect(function(input,gp)
+
+        if gp then return end
+
+        if input.KeyCode == ToggleKey then
+            frame.Visible = not frame.Visible
+        end
+
+    end)
+
+end
+
+-------------------------------------------------
+-- KEY SYSTEM
+-------------------------------------------------
+
+enter.MouseButton1Click:Connect(function()
+
+    if keyBox.Text == KEY_CORRETA then
+
+        keyFrame:Destroy()
+
+        abrirPainel()
+
+    else
+
+        keyBox.Text = ""
+        keyBox.PlaceholderText = "KEY INCORRETA"
+
+    end
+
+end)
