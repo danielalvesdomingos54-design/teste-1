@@ -2,7 +2,7 @@ local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 
-local KEY_CORRETA = "mendingos123"
+local KEY_CORRETA = "freitas1707"
 local ToggleKey = Enum.KeyCode.K
 
 -------------------------------------------------
